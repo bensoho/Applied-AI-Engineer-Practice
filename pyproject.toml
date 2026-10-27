@@ -1,5 +1,5 @@
 [project]
-name = "langchain-day1"
+name = "applied-ai-engineer-practice"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [project.scripts]
-langchain-day1 = "langchain_day1:main"
+applied-ai-engineer-practice = "applied_ai_engineer_practice:main"
 
 [build-system]
 requires = ["uv_build>=0.13.6,<0.14.0"]
