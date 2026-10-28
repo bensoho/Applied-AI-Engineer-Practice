@@ -17,3 +17,12 @@ cd langchain-day1
 uv init
 uv add langchain langchain-openai python-dotenv
 ```
+#### 今日验收标准
+- uv init 成功
+- uv add langchain langchain-openai python-dotenv 成功
+- uv run python day1_chat.py 能运行
+- uv run python day1_messages.py 能运行
+- uv run python day1_lcel.py 能运行
+- 能解释 SystemMessage / HumanMessage / AIMessage
+- 能解释 prompt | model
+- 至少记录 1 个踩坑点
