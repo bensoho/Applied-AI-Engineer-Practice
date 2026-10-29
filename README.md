@@ -1,35 +1,47 @@
-### Day 2：ChatModel 调用、消息类型与 LCEL 基础
+### Day 3：PromptTemplate、结构化输出与 OutputParser
 | 序号 | 任务 | 完成标准 |
 |---|---|---|
-| 1 | 进入 Day 1 项目目录 | 终端位于 `langchain-day1` |
-| 2 | 激活 uv 环境 | `uv run python --version` 正常输出 |
-| 3 | 复习 Day 1 三个脚本 | `day1_chat.py`、`day1_messages.py`、`day1_lcel.py` 都能运行 |
-| 4 | 封装统一模型函数 | 新建 `model.py`，避免每个文件重复写配置 |
-| 5 | 练习三种消息 | 能区分 SystemMessage、HumanMessage、AIMessage |
-| 6 | 练习 LCEL 三种调用 | 能运行 `invoke`、`stream`、`batch` |
-| 7 | 观察返回对象 | 能打印 `type(response)` 和 `response.content` |
-| 8 | 记录踩坑 | 至少记录 1 个报错或理解点 |
+| 1 | 复习 Day 2 代码 | `day2_messages.py`、`day2_lcel.py` 能正常运行 |
+| 2 | 练习 ChatPromptTemplate | 能用 `from_messages` 和 `from_template` 创建 Prompt |
+| 3 | 练习变量替换 | 能用 `{topic}`、`{question}` 等变量传入 |
+| 4 | 练习 Pydantic 结构化输出 | 模型能返回稳定字段，而不是自由文本 |
+| 5 | 练习 JsonOutputParser | 能解析模型返回的 JSON |
+| 6 | 练习 PydanticOutputParser | 能解析成 Pydantic 对象 |
+| 7 | 对比 Parser 差异 | 知道 `StrOutputParser` 与 `JsonOutputParser` 的区别 |
+| 8 | 记录踩坑 | 至少记录 1 个 JSON 解析或 Prompt 问题 |
 
-#### 三种调用方式对比
-| 调用方式 | 适合场景 | 返回值 |
+#### 对比三种 Parser
+| Parser | 返回类型 | 适合场景 |
 |---|---|---|
-| `invoke` | 单次问答、调试 | 一个完整结果 |
-| `stream` | 对话界面、打字机效果 | 逐块返回文本 |
-| `batch` | 批量生成、离线处理 | 结果列表 |
+| `StrOutputParser` | 字符串 | 普通问答 |
+| `JsonOutputParser` | dict / list | 需要 JSON，但不强制字段 |
+| `PydanticOutputParser` | Pydantic 对象 | 需要严格字段校验 |
 
+#### 推荐优先级：
+| 场景 | 推荐方式 |
+|---|---|
+| 普通对话 | `StrOutputParser` |
+| 需要 JSON | `JsonOutputParser` |
+| 需要固定字段 | `model.with_structured_output(Pydantic)` |
 
 #### 今天重点看的文档
 | 文档 | 看什么 |
 |---|---|
-| LangChain ChatModel 教程 | invoke、stream、batch、消息类型 |
-| LangChain Messages 文档 | SystemMessage、HumanMessage、AIMessage |
-| LangChain LCEL 文档 | `|` 管道、Runnable 接口 |
-| DeepSeek 模型与价格页 | 确认 `deepseek-flash`、`deepseek-v4-pro` 当前状态 |
+| LangChain PromptTemplate | `from_messages`、`from_template`、变量替换 |
+| LangChain Structured Output | `with_structured_output`、Pydantic |
+| LangChain OutputParser | `StrOutputParser`、`JsonOutputParser`、`PydanticOutputParser` |
+| DeepSeek 模型页 | 确认 `deepseek-flash` 是否支持结构化输出 |
 
 #### 今日验收标准
-- uv run python day2_messages.py 能运行
-- uv run python day2_lcel.py 能运行
-- 能解释 invoke、stream、batch 的区别
-- 能解释 SystemMessage、HumanMessage、AIMessage 的作用
-- 能打印出 response.content
+- uv run python day3_prompt.py 能运行
+- uv run python day3_structured.py 能运行
+- uv run python day3_json_parser.py 能运行
+- 能解释 ChatPromptTemplate 的变量替换
+- 能解释 with_structured_output 的作用
+- 能区分 StrOutputParser、JsonOutputParser、PydanticOutputParser
 - 至少记录 1 个踩坑点
+
+```
+DeepSeek 的思考模式不支持强制 tool_choice，而 with_structured_output 会强制指定工具，
+所以这里关闭思考模式
+```
